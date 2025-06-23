@@ -1,0 +1,4 @@
+official-packages:
+  - ros-humble-moveit
+  - ros-humble-navigation2
+  - ros-humble-gazebo-ros-pkgs

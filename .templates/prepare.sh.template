@@ -1,0 +1,59 @@
+#!/bin/bash
+mamba deactivate
+
+# ROS Environment Configuration
+
+# ROS Domain and Network Settings
+export ROS_DOMAIN_ID=0
+export ROS_IP=YOUR_IP
+
+# Workspace Path (usually the current directory)
+export ROS_WS_PATH=/path/to/your/ros_ws
+
+# Isaac Sim Configuration
+export ISAAC_SIM_PACKAGE_PATH=/path/to/your/isaac-sim-4.5.0
+
+# Set colcon configuration
+export COLCON_DEFAULTS_FILE=${ROS_WS_PATH}/defaults.json
+export COLCON_LOG_PATH=${ROS_WS_PATH}/log
+export FASTRTPS_DEFAULT_PROFILES_FILE=${PWD}/fastdds_config.xml
+
+# Source ROS2 setup
+source /opt/ros/humble/setup.bash
+source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash
+
+# Source workspace if it exists
+if [ -f "${ROS_WS_PATH}/install/setup.bash" ]; then
+    source ${ROS_WS_PATH}/install/setup.bash
+fi
+
+# Isaac-sim related (configured via .env file)
+if [ -n "$ISAAC_SIM_PACKAGE_PATH" ]; then
+    # If using built-in ROS humble, uncomment the following segment
+    # export RMW_IMPLEMENTATION=rmw_fastrtps_cpp
+    # # Check if the Isaac Sim library path is already in LD_LIBRARY_PATH
+    # export ISAAC_LIB_PATH="$ISAAC_SIM_PACKAGE_PATH/exts/isaacsim.ros2.bridge/humble/lib"
+    # if [[ ":$LD_LIBRARY_PATH:" != *":$ISAAC_LIB_PATH:"* ]]; then
+    #     export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ISAAC_LIB_PATH
+    # fi
+    
+    function start-isaac() {
+        "$ISAAC_SIM_PACKAGE_PATH/isaac-sim.sh"
+    }
+fi
+
+function rosmain() {
+    ros2 launch victor_moveit_config demo.launch.py use_rviz:=true
+}
+
+function rossim() {
+    ros2 launch victor_moveit_config demo.launch.py use_rviz:=true use_simulator:=true
+}
+
+function ros-unity() {
+    ros2 run ros_tcp_endpoint default_server_endpoint --ros-args -p ROS_IP:=$ROS_IP
+}
+
+function victor-gui() {
+    python src/kuka_iiwa_interface/victor_python/victor_python/victor_command_gui.py
+}
