@@ -1,3 +1,6 @@
 [submodule "src/ros2_mpu6050_driver"]
 	path = src/ros2_mpu6050_driver
 	url = git@github.com:hiwad-aziz/ros2_mpu6050_driver.git
+[submodule "src/MPU6050-with-Kalman-Filter"]
+	path = src/MPU6050-with-Kalman-Filter
+	url = https://github.com/junhyukch7/MPU6050-with-Kalman-Filter.git
