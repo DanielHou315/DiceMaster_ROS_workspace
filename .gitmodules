@@ -4,3 +4,7 @@
 [submodule "src/MPU6050-with-Kalman-Filter"]
 	path = src/MPU6050-with-Kalman-Filter
 	url = https://github.com/junhyukch7/MPU6050-with-Kalman-Filter.git
+[submodule "src/imu_tools"]
+	path = src/imu_tools
+	url = git@github.com:CCNYRoboticsLab/imu_tools.git
+	branch = humble

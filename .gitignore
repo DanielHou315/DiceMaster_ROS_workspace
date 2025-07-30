@@ -21,5 +21,3 @@ prepare.sh
 
 # ROS Data
 rosbag*/
-
-src/
